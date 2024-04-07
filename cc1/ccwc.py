@@ -1,5 +1,5 @@
 from os import path
-from sys import stdin, stdout
+import sys
 import argparse
 
 def count_bytes(data:str, is_filename:bool = False):
@@ -47,8 +47,13 @@ def count_chars(data:str, is_filename:bool = False):
     return chars
     
 parser = argparse.ArgumentParser(
-    prog="Wc",
-    description="WC"
+    prog="ccwc",
+    description="wc implementation in python",
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    epilog='''
+Example : cat test.txt | python ccwc.py -l
+          python ccwc.py text.txt -l -w
+'''
 )
 
 parser.add_argument("-l", "--lines", action="store_true", help="number of lines")
@@ -67,10 +72,13 @@ if not (args.count or args.lines or args.words or args.chars):
     args.words = True
 
 if filename is None:
-    if stdin.isatty():
-        stdout.write("filename is required")
+    if sys.stdin.isatty():
+        sys.stdout.write("Invalid way to invoke\n")
+        sys.stdout.write("usage: pyhton ccwc.py [-h] [-l] [-c] [-w] [-m] [filename]\n")
+        sys.stdout.write("Example : cat test.txt | python ccwc.py -l\n\t  python ccwc.py text.txt -l -w")
+        sys.exit(1)
     else:
-        content = stdin.readlines()
+        content = sys.stdin.readlines()
 
         output = ""
         
@@ -87,7 +95,8 @@ if filename is None:
         if args.chars:
             output += f" {count_chars(content)}"
 
-        stdout.write(output)
+        sys.stdout.write(output)
+        sys.exit(0)
 
 else:
 
@@ -109,6 +118,8 @@ else:
 
         output += f" {filename}"
 
-        stdout.write(output)
+        sys.stdout.write(output)
+        sys.exit(0)
     else:
-        stdout.write(f"File {filename} not found")
+        sys.stdout.write(f"file {filename} not found")
+        sys.exit(1)
