@@ -74,7 +74,7 @@ if not (args.count or args.lines or args.words or args.chars):
 if filename is None:
     if sys.stdin.isatty():
         sys.stdout.write("Invalid way to invoke\n")
-        sys.stdout.write("usage: pyhton ccwc.py [-h] [-l] [-c] [-w] [-m] [filename]\n")
+        sys.stdout.write("usage: python ccwc.py [-h] [-l] [-c] [-w] [-m] [filename]\n")
         sys.stdout.write("Example : cat test.txt | python ccwc.py -l\n\t  python ccwc.py text.txt -l -w")
         sys.exit(1)
     else:
@@ -84,16 +84,16 @@ if filename is None:
         
 
         if args.lines:
-            output += f" {count_lines(content)}"
+            output += f" {count_lines("".join(content))}"
 
         if args.words:
-            output += f" {count_words(content)}"
+            output += f" {count_words("".join(content))}"
 
         if args.count:
-            output += f" {count_bytes(content)}"
+            output += f" {count_bytes("".join(content))}"
         
         if args.chars:
-            output += f" {count_chars(content)}"
+            output += f" {count_chars("".join(content))}"
 
         sys.stdout.write(output)
         sys.exit(0)
