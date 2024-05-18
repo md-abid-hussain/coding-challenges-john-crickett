@@ -1,4 +1,3 @@
-import sys
 from typing import List
 from enum import Enum
 
@@ -79,17 +78,8 @@ class JsonParser:
         return self.tokens
 
     def parse(self):
-        try:
-            return parse(self._tokenizer())
-        except InvalidTokenException as ite:
-            print(ite)
-        except InvalidJSONException as ije:
-            print(ije)
-
-        sys.exit(2)
-    
-
-
+        return parse(self._tokenizer())
+        
 def tokenize_array(array_string: str, line, position) -> List[Token]:
     tokens: List[Token] = []
     index = 0
